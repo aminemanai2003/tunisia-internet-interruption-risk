@@ -65,10 +65,33 @@ write_public_artifacts <- function(
   )
   yaml::write_yaml(model_card, file.path(paths$artifacts, "model_card.yml"))
 
+  research_theme <- function() {
+    ggplot2::theme_minimal(base_size = 10.5, base_family = "sans") +
+      ggplot2::theme(
+        text = ggplot2::element_text(color = "#27313A"),
+        plot.title = ggplot2::element_text(
+          size = 13.5, face = "bold", color = "#16384D",
+          margin = ggplot2::margin(b = 3)
+        ),
+        plot.subtitle = ggplot2::element_text(
+          size = 9.5, color = "#5F6B74",
+          margin = ggplot2::margin(b = 12)
+        ),
+        axis.title = ggplot2::element_text(size = 9.5, color = "#27313A"),
+        axis.text = ggplot2::element_text(size = 9, color = "#46535D"),
+        panel.grid.minor = ggplot2::element_blank(),
+        panel.grid.major = ggplot2::element_line(color = "#E1E5E8", linewidth = 0.35),
+        legend.position = "bottom",
+        legend.title = ggplot2::element_blank(),
+        legend.text = ggplot2::element_text(size = 8.7),
+        plot.margin = ggplot2::margin(10, 18, 10, 10)
+      )
+  }
+
   chain <- data.frame(
     component = factor(
-      c("Disruption", "Positive loss | disruption", "Mean severity | positive loss"),
-      levels = rev(c("Disruption", "Positive loss | disruption", "Mean severity | positive loss"))
+      c("Disruption", "Positive loss given disruption", "Mean severity given positive loss"),
+      levels = rev(c("Disruption", "Positive loss given disruption", "Mean severity given positive loss"))
     ),
     value = c(
       calibration$disruption_probability,
@@ -77,10 +100,10 @@ write_public_artifacts <- function(
     )
   )
   plot_chain <- ggplot2::ggplot(chain, ggplot2::aes(x = component, y = value)) +
-    ggplot2::geom_col(fill = "#176B87", width = 0.62) +
+    ggplot2::geom_col(fill = "#3F6B82", width = 0.56) +
     ggplot2::geom_text(
       ggplot2::aes(label = scales::percent(value, accuracy = 0.1)),
-      hjust = -0.12, color = "#102F46", fontface = "bold", size = 4
+      hjust = -0.12, color = "#27313A", size = 3.4
     ) +
     ggplot2::coord_flip() +
     ggplot2::scale_y_continuous(
@@ -89,49 +112,50 @@ write_public_artifacts <- function(
     ) +
     ggplot2::labs(
       x = NULL, y = "Survey-weighted estimate",
-      title = "The three-stage actuarial loss chain"
+      title = "Loss-cost components",
+      subtitle = "Survey-weighted estimates from the 2024 business survey"
     ) +
-    ggplot2::theme_minimal(base_size = 12) +
+    research_theme() +
     ggplot2::theme(
-      panel.grid.major.y = ggplot2::element_blank(),
-      plot.title = ggplot2::element_text(face = "bold", color = "#102F46")
+      panel.grid.major.y = ggplot2::element_blank()
     )
   ggplot2::ggsave(
     file.path(paths$figures, "actuarial-loss-chain.png"),
-    plot_chain, width = 8, height = 4.8, dpi = 200, bg = "white"
+    plot_chain, width = 8, height = 4.5, dpi = 220, bg = "white"
   )
 
   plot_switching <- ggplot2::ggplot(
     switching,
     ggplot2::aes(
-      x = stats::reorder(category, weighted_share), y = weighted_share,
-      fill = category
+      x = stats::reorder(category, weighted_share), y = weighted_share
     )
   ) +
-    ggplot2::geom_col(show.legend = FALSE, width = 0.68) +
+    ggplot2::geom_col(fill = "#3F6B82", width = 0.58) +
     ggplot2::geom_text(
       ggplot2::aes(label = scales::percent(weighted_share, accuracy = 0.1)),
-      hjust = -0.1, color = "#102F46", fontface = "bold", size = 3.7
+      hjust = -0.1, color = "#27313A", size = 3.25
     ) +
     ggplot2::coord_flip() +
-    ggplot2::scale_fill_manual(values = c("#BE3144", "#D95D39", "#E9A23B", "#64A6A6", "#176B87")) +
     ggplot2::scale_y_continuous(
       labels = scales::percent_format(accuracy = 1),
       expand = ggplot2::expansion(mult = c(0, 0.18))
     ) +
     ggplot2::labs(
       x = NULL, y = "Survey-weighted share",
-      title = "Reported difficulty switching internet providers"
+      title = "Provider-switching constraints",
+      subtitle = "Reported difficulty among connected formal businesses"
     ) +
-    ggplot2::theme_minimal(base_size = 12) +
+    research_theme() +
     ggplot2::theme(
-      panel.grid.major.y = ggplot2::element_blank(),
-      plot.title = ggplot2::element_text(face = "bold", color = "#102F46")
+      panel.grid.major.y = ggplot2::element_blank()
     )
   ggplot2::ggsave(
     file.path(paths$figures, "provider-switching.png"),
-    plot_switching, width = 8, height = 5.2, dpi = 200, bg = "white"
+    plot_switching, width = 8, height = 4.9, dpi = 220, bg = "white"
   )
+
+  projection_end <- projections |>
+    dplyr::filter(projection_year == max(projection_year, na.rm = TRUE))
 
   plot_projection <- ggplot2::ggplot(
     projections,
@@ -139,37 +163,41 @@ write_public_artifacts <- function(
       x = projection_year,
       y = risk_adjusted_provision_tnd / 1000,
       color = scenario_label,
+      linetype = scenario_label,
       group = scenario_label
     )
   ) +
-    ggplot2::geom_ribbon(
+    ggplot2::geom_line(linewidth = 0.9) +
+    ggplot2::geom_point(size = 1.8) +
+    ggplot2::geom_errorbar(
+      data = projection_end,
       ggplot2::aes(
         ymin = risk_adjusted_provision_lower_tnd / 1000,
-        ymax = risk_adjusted_provision_upper_tnd / 1000,
-        fill = scenario_label
+        ymax = risk_adjusted_provision_upper_tnd / 1000
       ),
-      alpha = 0.12, color = NA, show.legend = FALSE
+      width = 0.10, linewidth = 0.7, linetype = "solid", show.legend = FALSE
     ) +
-    ggplot2::geom_line(linewidth = 1.2) +
-    ggplot2::geom_point(size = 2.4) +
     ggplot2::scale_color_manual(values = c(
-      "Resilience improvement" = "#14866D",
-      "Persistent conditions" = "#176B87",
-      "Systemic stress" = "#BE3144"
-    )) +
+      "Resilience improvement" = "#71808A",
+      "Persistent conditions" = "#245F7B",
+      "Systemic stress" = "#9A4646"
+    ), breaks = c("Resilience improvement", "Persistent conditions", "Systemic stress")) +
+    ggplot2::scale_linetype_manual(values = c(
+      "Resilience improvement" = "dashed",
+      "Persistent conditions" = "solid",
+      "Systemic stress" = "longdash"
+    ), breaks = c("Resilience improvement", "Persistent conditions", "Systemic stress")) +
     ggplot2::scale_x_continuous(breaks = sort(unique(projections$projection_year))) +
+    ggplot2::scale_y_continuous(labels = scales::label_number(accuracy = 1, big.mark = " ")) +
     ggplot2::labs(
-      x = NULL, y = "Annual planning provision (k TND)", color = NULL,
-      title = "Conditional internet-risk provisions, 2027-2031"
+      x = NULL, y = "Annual planning provision (thousand TND)",
+      title = "Conditional provision paths",
+      subtitle = "Central scenario estimates; bars show the 95% empirical interval in 2031"
     ) +
-    ggplot2::theme_minimal(base_size = 12) +
-    ggplot2::theme(
-      legend.position = "bottom",
-      plot.title = ggplot2::element_text(face = "bold", color = "#102F46")
-    )
+    research_theme()
   ggplot2::ggsave(
     file.path(paths$figures, "provision-scenarios.png"),
-    plot_projection, width = 8, height = 4.8, dpi = 200, bg = "white"
+    plot_projection, width = 8, height = 4.5, dpi = 220, bg = "white"
   )
 
   c(

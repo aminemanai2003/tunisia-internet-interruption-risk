@@ -13,12 +13,16 @@ persistent_2027 <- projection_row("persistent", 2027)
 systemic_2031 <- projection_row("systemic", 2031)
 ```
 
-::: {.hero}
-<div class="eyebrow">Independent actuarial study · Tunisia · Evidence to 2024 · Scenarios to 2031</div>
+::: {.study-summary}
+<div class="study-label">Actuarial research note · August 2026</div>
 
-# When connectivity failure becomes a balance-sheet risk
+The study quantifies self-reported internet interruptions as an operating-risk exposure, validates a parsimonious actuarial model against a machine-learning challenger, and translates the evidence into conditional planning provisions.
 
-This project converts self-reported internet disruptions into a survey-weighted loss-cost framework, tests a governed AI challenger, and translates uncertainty into conditional business-continuity provisions.
+<div class="study-meta">
+  <div><span>Evidence base</span><strong>WBES 2024</strong></div>
+  <div><span>Population</span><strong>Formal businesses</strong></div>
+  <div><span>Outlook</span><strong>2027-2031 scenarios</strong></div>
+</div>
 :::
 
 ::: {.metric-grid}

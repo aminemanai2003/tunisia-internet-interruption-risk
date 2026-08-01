@@ -347,7 +347,7 @@ display <- data.frame(
 knitr::kable(display, booktabs = TRUE, align = c("l", "r", "r", "r", "r", "r"))
 ```
 
-The shaded interval propagates only the empirical 2024 resampling interval. Scenario uncertainty is represented through separate paths rather than mixed into a single probabilistic claim.
+The vertical 2031 intervals propagate only the empirical 2024 resampling interval. Scenario uncertainty is represented through separate paths rather than mixed into a single probabilistic claim.
 
 # Limitations and interpretation
 

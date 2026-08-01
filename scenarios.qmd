@@ -39,7 +39,7 @@ display <- data.frame(
 knitr::kable(display, align = c("l", "r", "r", "r", "r"))
 ```
 
-![Conditional internet-risk provision scenarios](artifacts/public/figures/provision-scenarios.png){fig-alt="Annual provisions from 2027 to 2031 under resilience improvement, persistent conditions and systemic stress, with bootstrap bands."}
+![Conditional internet-risk provision scenarios](artifacts/public/figures/provision-scenarios.png){fig-alt="Annual provisions from 2027 to 2031 under resilience improvement, persistent conditions and systemic stress, with 2031 empirical uncertainty intervals."}
 
 The resilience scenario is an explicit improvement assumption, not a forecast. Persistent conditions hold the calibrated risk ratio constant before exposure growth. Systemic stress increases the initial risk level and subsequent trend.
 

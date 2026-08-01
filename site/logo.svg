@@ -1,9 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">Internet interruption risk network mark</title>
-  <rect width="64" height="64" rx="14" fill="#102f46"/>
-  <path d="M16 43 28 31l10 8 10-18" fill="none" stroke="#67d5c8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="16" cy="43" r="4" fill="#f6f9fa"/>
-  <circle cx="28" cy="31" r="4" fill="#f6f9fa"/>
-  <circle cx="38" cy="39" r="4" fill="#f3aa45"/>
-  <circle cx="48" cy="21" r="4" fill="#f6f9fa"/>
+  <title id="title">Internet interruption risk data mark</title>
+  <path d="M10 51.5h44" fill="none" stroke="#9aa8b2" stroke-width="2"/>
+  <rect x="13" y="34" width="8" height="14" fill="#49697d"/>
+  <rect x="28" y="24" width="8" height="24" fill="#234b63"/>
+  <rect x="43" y="13" width="8" height="35" fill="#16384d"/>
 </svg>
