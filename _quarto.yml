@@ -1,0 +1,66 @@
+project:
+  type: website
+  output-dir: docs
+  execute-dir: project
+  render:
+    - index.qmd
+    - evidence.qmd
+    - network-context.qmd
+    - methodology.qmd
+    - scenarios.qmd
+    - limitations.qmd
+    - reports/actuarial-report.qmd
+  resources:
+    - artifacts/public
+    - reports/actuarial-report.pdf
+
+website:
+  title: "Internet Interruption Risk"
+  description: "Independent actuarial study of internet-interruption risk for formal businesses in Tunisia."
+  site-url: "https://aminemanai2003.github.io/tunisia-internet-interruption-risk/"
+  favicon: site/logo.svg
+  open-graph: true
+  page-navigation: true
+  back-to-top-navigation: true
+  navbar:
+    logo: site/logo.svg
+    left:
+      - href: index.qmd
+        text: Overview
+      - href: evidence.qmd
+        text: Business evidence
+      - href: network-context.qmd
+        text: Network context
+      - href: methodology.qmd
+        text: Methodology
+      - href: scenarios.qmd
+        text: Scenarios
+      - href: limitations.qmd
+        text: Limits
+      - href: reports/actuarial-report.qmd
+        text: Technical report
+    right:
+      - icon: github
+        href: https://github.com/aminemanai2003/tunisia-internet-interruption-risk
+        aria-label: GitHub repository
+  page-footer:
+    left: "Independent actuarial study · Reproducible aggregate evidence"
+    right: "Data: World Bank Enterprise Surveys, INT and RIPE Atlas"
+
+format:
+  html:
+    theme: cosmo
+    css: site/styles.css
+    toc: true
+    toc-depth: 3
+    smooth-scroll: true
+    code-copy: true
+    link-external-newwindow: true
+    html-math-method: katex
+
+execute:
+  echo: false
+  warning: false
+  message: false
+
+bibliography: reports/references.bib

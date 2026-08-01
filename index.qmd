@@ -1,0 +1,69 @@
+---
+title: "Internet-interruption risk"
+subtitle: "Business loss, network resilience and conditional provisioning"
+description: "An independent actuarial study using the 2024 World Bank Enterprise Survey and public network evidence."
+toc: false
+page-layout: full
+---
+
+```{r}
+#| include: false
+source("site/helpers.R")
+persistent_2027 <- projection_row("persistent", 2027)
+systemic_2031 <- projection_row("systemic", 2031)
+```
+
+::: {.hero}
+<div class="eyebrow">Independent actuarial study · Tunisia · Evidence to 2024 · Scenarios to 2031</div>
+
+# When connectivity failure becomes a balance-sheet risk
+
+This project converts self-reported internet disruptions into a survey-weighted loss-cost framework, tests a governed AI challenger, and translates uncertainty into conditional business-continuity provisions.
+:::
+
+::: {.metric-grid}
+::: {.metric-card}
+<span class="number">`r fmt_pct(evidence$disruption_rate_weighted)`</span>
+<span class="label">survey-weighted disruption rate among valid connected-business responses in 2024</span>
+:::
+::: {.metric-card}
+<span class="number">`r fmt_num(evidence$mean_duration_hours_weighted)` hours</span>
+<span class="label">weighted mean reported duration among affected businesses with usable duration</span>
+:::
+::: {.metric-card .amber}
+<span class="number">`r fmt_ratio_pct(calibration$expected_loss_ratio)`</span>
+<span class="label">calibrated expected loss ratio per unit of annual-sales exposure</span>
+:::
+::: {.metric-card .red}
+<span class="number">`r fmt_tnd(systemic_2031$risk_adjusted_provision_tnd)`</span>
+<span class="label">2031 annual provision per 10 million TND starting exposure under systemic stress</span>
+:::
+:::
+
+## What the project measures
+
+The empirical layer estimates internet-disruption occurrence and conditional duration for formal businesses represented by the 2024 survey. The actuarial layer decomposes the loss cost into disruption probability, probability of a positive loss given disruption, and mean positive severity. The forward layer applies explicit stress, growth and prudence assumptions from 2027 to 2031.
+
+![The three-stage actuarial internet-loss chain](artifacts/public/figures/actuarial-loss-chain.png){fig-alt="Horizontal bars for disruption probability, positive loss probability conditional on disruption, and mean severity conditional on positive loss."}
+
+The calibrated expected loss ratio is **`r fmt_ratio_pct(calibration$expected_loss_ratio)`**. Applied to 10 million TND of annual-sales exposure, the 2027 persistent-condition scenario produces an expected economic loss of **`r fmt_tnd(persistent_2027$expected_economic_loss_tnd)`** and a risk-adjusted planning provision of **`r fmt_tnd(persistent_2027$risk_adjusted_provision_tnd)`**.
+
+::: {.callout-important title="This is not a loss estimate for an operator"}
+The business survey does not identify the internet provider. It cannot show that Tunisie Télécom, Ooredoo Tunisia, Orange Tunisia or another provider caused an individual business loss. Official INT and RIPE Atlas evidence is kept in a separate contextual layer.
+:::
+
+## Why the result is actuarially useful
+
+The project does not hide the weak part of the evidence. There are `r calibration$valid_loss_ratio_responses` usable loss-ratio answers among disrupted firms and only `r calibration$positive_loss_events` positive losses. That supports a transparent empirical calibration and bootstrap, but not a stable severity GLM. The model gate blocks unsupported precision.
+
+## The AI contribution
+
+A histogram gradient-boosting challenger is evaluated with repeated stratified five-fold cross-validation. Its mean weighted AUC is **`r formatC(metric_value(ml_validation, "weighted_auc"), digits = 3, format = "f")`**, compared with **`r formatC(metric_value(validation, "weighted_auc"), digits = 3, format = "f")`** for the actuarial GLM. The challenger is not promoted because only `r evidence$disruption_events` events are available against a predeclared threshold of 200.
+
+::: {.panel}
+**Decision principle:** predictive metrics inform comparison; evidence sufficiency determines whether a model may be used. Feature importance is diagnostic, not causal.
+:::
+
+## Reproducible public boundary
+
+Raw WBES microdata remain local. The public repository contains aggregate estimates, coefficients, validation summaries, assumptions, source checksums and figures. Automated checks prevent individual identifiers, annual sales and monetary loss records from entering public CSV files.

@@ -1,0 +1,7 @@
+report_id,metric,value,unit,scope,reported_assessment,table_reference
+int_fixed_qos_2020,Download throughput,6.59,Mbps,National mean; all five ISPs; 8 Mbps ADSL,Good,Table 2
+int_fixed_qos_2020,Upload throughput,0.83,Mbps,National mean; all five ISPs; 8 Mbps ADSL,Good,Table 2
+int_fixed_qos_2020,Network latency,41.31,ms,National mean; all five ISPs; 8 Mbps ADSL,Within threshold,Table 2
+int_fixed_qos_2020,DNS resolution time,62.8,ms,National mean; all five ISPs; 8 Mbps ADSL,Within threshold,Table 2
+int_fixed_qos_2020,Access availability,98.62,%,National mean; all five ISPs; 8 Mbps ADSL,Within 98% threshold,Table 2
+int_fixed_qos_2020,VoIP packet-loss rate,0.023,ratio,National mean; all five ISPs; 8 Mbps ADSL,Outside threshold,Table 2

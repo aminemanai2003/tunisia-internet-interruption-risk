@@ -1,0 +1,54 @@
+---
+title: "Actuarial Internet-Interruption Risk"
+subtitle: "Business loss, network resilience and conditional provisions in Tunisia"
+author: "Amine Manai"
+date: "1 August 2026"
+date-format: "D MMMM YYYY"
+lang: en
+format:
+  pdf:
+    documentclass: scrartcl
+    classoption: [11pt, oneside, titlepage=true]
+    papersize: a4
+    pdf-engine: xelatex
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    colorlinks: true
+    geometry:
+      - top=24mm
+      - bottom=25mm
+      - left=24mm
+      - right=24mm
+    mainfont: "Cambria"
+    sansfont: "Arial"
+    mathfont: "Cambria Math"
+    keep-tex: false
+    include-in-header:
+      text: |
+        \usepackage{booktabs}
+        \usepackage{microtype}
+        \usepackage{mathtools}
+        \usepackage{amssymb}
+        \usepackage[automark]{scrlayer-scrpage}
+        \definecolor{RiskNavy}{HTML}{102F46}
+        \definecolor{RiskBlue}{HTML}{176B87}
+        \definecolor{RiskGreen}{HTML}{14866D}
+        \definecolor{RiskRed}{HTML}{BE3144}
+        \addtokomafont{section}{\color{RiskNavy}}
+        \addtokomafont{subsection}{\color{RiskBlue}}
+        \setkomafont{disposition}{\sffamily\bfseries}
+        \clearpairofpagestyles
+        \ihead{\footnotesize Actuarial Internet-Interruption Risk}
+        \ohead{\footnotesize\headmark}
+        \cfoot{\pagemark}
+        \setlength{\emergencystretch}{3em}
+output-file: actuarial-report.pdf
+execute:
+  echo: false
+  warning: false
+  message: false
+bibliography: references.bib
+---
+
+{{< include _report-body.qmd >}}

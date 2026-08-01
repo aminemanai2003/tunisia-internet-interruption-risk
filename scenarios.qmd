@@ -1,0 +1,69 @@
+---
+title: "Provision scenarios"
+subtitle: "Conditional 2027–2031 risk budgets, not operator forecasts"
+---
+
+```{r}
+#| include: false
+source("site/helpers.R")
+```
+
+## Projection identity
+
+For scenario $s$ and year $t\ge 2027$,
+
+::: {.formula-box}
+$$
+E_{s,t}=E_{s,2027}(1+h_s)^{t-2027},
+$$
+$$
+P_{s,t}=E_{s,t}\,\widehat{ELR}_{2024}\,m_s(1+g_s)^{t-2027}(1+\lambda_s),
+$$
+:::
+
+where $E$ is annual-sales exposure, $m$ initial risk stress, $g$ annual risk trend, $h$ exposure growth and $\lambda$ a prudence margin.
+
+## Assumptions
+
+```{r}
+#| label: tbl-assumptions
+#| tbl-cap: "Visible scenario assumptions"
+display <- data.frame(
+  Scenario = assumptions$scenario_label,
+  `Initial stress` = paste0(formatC(assumptions$initial_risk_stress, digits = 2, format = "f"), "×"),
+  `Annual risk trend` = fmt_pct(assumptions$annual_risk_trend),
+  `Exposure growth` = fmt_pct(assumptions$annual_exposure_growth),
+  `Prudence margin` = fmt_pct(assumptions$prudence_margin),
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r", "r", "r", "r"))
+```
+
+![Conditional internet-risk provision scenarios](artifacts/public/figures/provision-scenarios.png){fig-alt="Annual provisions from 2027 to 2031 under resilience improvement, persistent conditions and systemic stress, with bootstrap bands."}
+
+The resilience scenario is an explicit improvement assumption, not a forecast. Persistent conditions hold the calibrated risk ratio constant before exposure growth. Systemic stress increases the initial risk level and subsequent trend.
+
+## Results per 10 million TND starting exposure
+
+```{r}
+#| label: tbl-provisions
+#| tbl-cap: "Annual and cumulative conditional provisions"
+selected <- projections[projections$projection_year %in% c(2027, 2031), ]
+display <- data.frame(
+  Scenario = selected$scenario_label,
+  Year = selected$projection_year,
+  `Expected loss` = fmt_tnd(selected$expected_economic_loss_tnd),
+  `Risk-adjusted provision` = fmt_tnd(selected$risk_adjusted_provision_tnd),
+  `95% sampling band` = paste0(
+    fmt_tnd(selected$risk_adjusted_provision_lower_tnd), " – ",
+    fmt_tnd(selected$risk_adjusted_provision_upper_tnd)
+  ),
+  `Cumulative through year` = fmt_tnd(selected$cumulative_provision_tnd),
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r", "r", "r", "r", "r"))
+```
+
+::: {.callout-important title="Provision terminology"}
+“Provision” means a conditional management risk budget. It is not a statutory technical provision, IFRS 17 liability, IAS 37 provision, operator financial estimate, insurance premium or booked reserve.
+:::

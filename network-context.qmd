@@ -1,0 +1,75 @@
+---
+title: "Network and operator context"
+subtitle: "Official QoS campaigns and independent measurement footprint"
+---
+
+```{r}
+#| include: false
+source("site/helpers.R")
+```
+
+## Why this layer is separate
+
+WBES measures business experience but does not identify operators. INT measures network quality under defined campaigns but does not observe the surveyed firms' losses. RIPE Atlas observes a volunteer probe footprint. These sources are presented side by side and are never joined at firm level.
+
+## INT fixed-internet benchmark
+
+The official 2020 fixed-internet report evaluated 8 Mbps ADSL access across 24 governorates and five internet service providers. The following values are transcribed from Table 2.
+
+```{r}
+#| label: tbl-int-qos
+#| tbl-cap: "INT 2020 national fixed-internet QoS benchmark"
+display <- data.frame(
+  Metric = qos$metric,
+  Value = paste(qos$value, qos$unit),
+  Assessment = qos$reported_assessment,
+  Scope = qos$scope,
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r", "l", "l"))
+```
+
+The report's access-availability mean is `r paste0(qos$value[qos$metric == "Access availability"], "%")`. This is a dated campaign statistic, not an estimate of 2024 business disruptions.
+
+## INT mobile campaign coverage
+
+The 2019 mobile data campaign covered 3G/4G measurements in Grand Tunis for Tunisie Télécom, Ooredoo Tunisia and Orange Tunisia. The counts below indicate measurement volume only.
+
+```{r}
+#| label: tbl-mobile-scope
+#| tbl-cap: "INT 2019 mobile data QoS campaign scope"
+display <- data.frame(
+  Operator = operator_scope$operator,
+  `Measurement attempts` = operator_scope$measurement_attempts,
+  Geography = operator_scope$geography,
+  Indicators = operator_scope$indicators,
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r", "l", "l"))
+```
+
+::: {.callout-note title="No operator ranking from measurement counts"}
+More measurement attempts do not mean better or worse service. The project uses the campaign to document that comparable operator-level QoS evidence exists, while respecting its 2019 Grand Tunis scope.
+:::
+
+## RIPE Atlas public-probe snapshot
+
+```{r}
+#| label: tbl-ripe
+#| tbl-cap: "Largest ASN groups in the public Tunisia RIPE Atlas snapshot"
+display_data <- head(ripe[order(-ripe$observed_public_probes), ], 10)
+display <- data.frame(
+  ASN = display_data$asn,
+  Holder = display_data$asn_holder,
+  Observed = display_data$observed_public_probes,
+  Connected = display_data$connected_public_probes,
+  check.names = FALSE
+)
+knitr::kable(display, align = c("r", "l", "r", "r"))
+```
+
+RIPE Atlas probes support latency, reachability, DNS and traceroute measurement. The snapshot is a volunteer convenience sample and cannot represent market share, national coverage or operator outage frequency.
+
+## Provenance
+
+Both INT PDFs are downloaded with URL, UTC collection time, byte size and SHA-256 checksum. The complete record is published in [`network_source_manifest.csv`](artifacts/public/network_source_manifest.csv).

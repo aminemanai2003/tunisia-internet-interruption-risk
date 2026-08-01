@@ -1,0 +1,22 @@
+project: tunisia-internet-interruption-risk
+version: 0.1.0
+population: Formal Tunisian establishments represented by the 2024 World Bank Enterprise
+  Survey with a valid connected-business response.
+purpose: Survey-weighted internet-interruption risk measurement, business-loss calibration
+  and conditional planning provisions.
+validation: Repeated stratified five-fold cross-validation within the 2024 wave.
+severity_status: Empirical bootstrap calibration only; 16 positive percentage-loss
+  responses are insufficient for a promoted severity GLM.
+ai_status: A non-linear challenger is evaluated but not promoted because the predeclared
+  occurrence-event threshold is not met.
+operator_boundary: WBES contains no operator identifier. INT and RIPE Atlas evidence
+  is contextual and is never joined to individual business losses.
+public_boundary: Only aggregate artifacts are public; restricted WBES records remain
+  local.
+prohibited_interpretations:
+- official forecast by Tunisie Telecom, Ooredoo Tunisia or Orange Tunisia
+- causal attribution or legal liability
+- operator ranking from WBES losses
+- national total economic loss
+- commercial insurance premium
+- statutory or booked reserve

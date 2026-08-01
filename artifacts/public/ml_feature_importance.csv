@@ -1,0 +1,6 @@
+feature,importance_auc_mean,importance_auc_sd,evaluation_folds,status
+region,0.12162965059835021,0.022603859901024773,5,cross_validated_diagnostic_only_not_causal
+log_annual_sales,0.02993418627975399,0.0556493076436761,5,cross_validated_diagnostic_only_not_causal
+sector,0.02254169199629791,0.0378038515664891,5,cross_validated_diagnostic_only_not_causal
+firm_size,0.007851518912699206,0.011790739396383126,5,cross_validated_diagnostic_only_not_causal
+log_broadband_cost,-0.014949142360582604,0.03197976198432305,5,cross_validated_diagnostic_only_not_causal

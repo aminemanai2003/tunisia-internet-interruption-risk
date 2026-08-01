@@ -1,0 +1,4 @@
+operator,measurement_attempts,campaign,geography,technologies,indicators,source_table,interpretation
+Tunisie Telecom,3723,INT mobile data QoS 2019,Grand Tunis,3G/4G,download/upload success; throughput; latency,Table 5,"Campaign coverage count, not an outage or quality ranking."
+Ooredoo Tunisia,4011,INT mobile data QoS 2019,Grand Tunis,3G/4G,download/upload success; throughput; latency,Table 5,"Campaign coverage count, not an outage or quality ranking."
+Orange Tunisia,3667,INT mobile data QoS 2019,Grand Tunis,3G/4G,download/upload success; throughput; latency,Table 5,"Campaign coverage count, not an outage or quality ranking."

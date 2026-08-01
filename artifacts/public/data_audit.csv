@@ -1,0 +1,13 @@
+survey_year,field,raw_n,non_missing_n,non_missing_rate
+2024,internet_connected,645,644,0.9984496124031008
+2024,internet_disruption,645,616,0.9550387596899225
+2024,disruption_duration_hours,645,129,0.2
+2024,internet_loss_ratio_pct,645,117,0.1813953488372093
+2024,internet_loss_value_tnd,645,8,0.012403100775193798
+2024,provider_switch_category,645,635,0.9844961240310077
+2024,annual_broadband_cost_tnd,645,578,0.896124031007752
+2024,survey_weight,645,645,1
+2024,region,645,645,1
+2024,sector,645,645,1
+2024,firm_size,645,645,1
+2024,annual_sales_tnd,645,576,0.8930232558139535

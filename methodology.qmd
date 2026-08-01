@@ -1,0 +1,121 @@
+---
+title: "Methodology"
+subtitle: "Survey design, conditional models, validation and governance"
+---
+
+```{r}
+#| include: false
+source("site/helpers.R")
+```
+
+## Estimand
+
+Let $I_i$ indicate a reported internet disruption for connected establishment $i$, $D_i$ its average duration, $L_i$ the reported loss ratio and $w_i$ the survey weight. The primary occurrence estimator is
+
+::: {.formula-box}
+$$
+\widehat p=\frac{\sum_i w_i I_i}{\sum_i w_i}.
+$$
+:::
+
+The effective sample size is
+
+$$
+n_{\mathrm{eff}}=\frac{\left(\sum_i w_i\right)^2}{\sum_i w_i^2},
+$$
+
+which equals `r fmt_num(evidence$effective_n)` for the valid occurrence sample.
+
+## Occurrence GLM
+
+The parsimonious design-weighted model is
+
+$$
+I_i\sim\operatorname{Bernoulli}(p_i),
+\qquad
+\operatorname{logit}(p_i)
+=\beta_0+\beta_R^\top R_i+\beta_S^\top S_i+\beta_Z^\top Z_i,
+$$
+
+where $R_i$, $S_i$ and $Z_i$ are region, sector and firm-size categories. Coefficients are descriptive risk associations, not causal effects.
+
+## Conditional duration model
+
+For strictly positive duration, the 99th-percentile-capped response is
+
+$$
+D_i^*=\min(D_i,Q_{0.99}),
+\qquad
+D_i^*\mid I_i=1\sim\operatorname{Gamma}(\mu_i,\phi),
+\qquad
+\log\mu_i=x_i^\top\gamma.
+$$
+
+Capping limits the leverage of the single 48-hour response without deleting it.
+
+## Actuarial loss chain
+
+::: {.formula-box}
+$$
+\widehat{ELR}_{2024}
+=\widehat{\Pr}_w(I=1)
+\times\widehat{\Pr}_w(L>0\mid I=1)
+\times\widehat{\mathbb E}_w[L\mid L>0,I=1].
+$$
+:::
+
+Numerically,
+
+$$
+`r formatC(calibration$disruption_probability, digits = 6, format = "f")`
+\times
+`r formatC(calibration$positive_loss_probability_given_disruption, digits = 6, format = "f")`
+\times
+`r formatC(calibration$mean_positive_loss_ratio, digits = 6, format = "f")`
+=
+`r formatC(calibration$expected_loss_ratio, digits = 7, format = "f")`.
+$$
+
+## Weighted resampling uncertainty
+
+Two thousand pseudo-population resamples draw establishment records with replacement using $\pi_i=w_i/\sum_jw_j$. The full three-stage estimator is recomputed in each resample. The percentile interval describes sampling variation under this procedure; it excludes model-form and scenario uncertainty.
+
+## Repeated cross-validation
+
+Internet disruption is available only in 2024, so a temporal holdout would be impossible. Both the GLM and AI challenger use repeated stratified five-fold cross-validation:
+
+$$
+\operatorname{BS}_w
+=\frac{\sum_{i\in\mathcal V}w_i(I_i-\widehat p_i)^2}{\sum_{i\in\mathcal V}w_i}.
+$$
+
+```{r}
+#| label: tbl-validation
+#| tbl-cap: "Repeated-cross-validation comparison"
+metrics <- c("weighted_brier", "prevalence_brier", "weighted_auc", "observed_rate", "predicted_rate")
+labels <- c("Weighted Brier", "Prevalence Brier", "Weighted AUC", "Observed rate", "Predicted rate")
+display <- data.frame(
+  Metric = labels,
+  `Actuarial GLM` = unname(formatC(vapply(metrics, function(x) metric_value(validation, x), numeric(1)), digits = 4, format = "f")),
+  `Gradient boosting` = unname(formatC(vapply(metrics, function(x) metric_value(ml_validation, x), numeric(1)), digits = 4, format = "f")),
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r", "r"))
+```
+
+## Promotion gates
+
+```{r}
+#| label: tbl-gates
+#| tbl-cap: "Predeclared evidence gates"
+display <- data.frame(
+  Component = gate$component,
+  Evidence = gate$observed_events_or_rows,
+  Minimum = gate$minimum_required,
+  Decision = ifelse(gate$allowed, "Pass", "Block"),
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r", "r", "c"))
+```
+
+The model card records the intended use, validation design, blocked models, public-data boundary and prohibited interpretations.

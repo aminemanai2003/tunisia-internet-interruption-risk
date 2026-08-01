@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "Actuarial Internet-Interruption Risk in Tunisia"
+message: "If you use this work, please cite the repository and the underlying data providers."
+type: software
+authors:
+  - family-names: Manai
+    given-names: Amine
+version: 0.1.0
+date-released: 2026-08-01
+license: MIT
+repository-code: "https://github.com/aminemanai2003/tunisia-internet-interruption-risk"

@@ -1,0 +1,29 @@
+Package: tunisiainternetrisk
+Title: Actuarial Internet-Interruption Risk in Tunisia
+Version: 0.1.0
+Authors@R: person("Amine", "Manai", email = "amine.manai@esprit.tn", role = c("aut", "cre"))
+Description: Reproducible survey-weighted modelling of internet interruptions,
+    conditional duration, business-impact loss cost, stress scenarios and
+    planning provisions using disclosure-safe public artifacts.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    broom,
+    dplyr,
+    ggplot2,
+    haven,
+    jsonlite,
+    knitr,
+    purrr,
+    readr,
+    rmarkdown,
+    scales,
+    survey,
+    targets,
+    tidyr,
+    yaml
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

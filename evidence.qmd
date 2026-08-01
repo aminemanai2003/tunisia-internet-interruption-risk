@@ -1,0 +1,104 @@
+---
+title: "Business evidence"
+subtitle: "What formal businesses reported in the 2024 WBES internet module"
+---
+
+```{r}
+#| include: false
+source("site/helpers.R")
+```
+
+## Survey base and disruption rate
+
+The 2024 Tunisia wave contains `r evidence$raw_n` establishment records. `r evidence$connected_usable_n` provide a valid yes/no disruption response; `r evidence$no_internet_connection_n` explicitly report having no internet connection. Among the valid connected-business responses, `r evidence$disruption_events` report an internet disruption.
+
+```{r}
+#| label: tbl-survey-evidence
+#| tbl-cap: "Survey-weighted 2024 internet evidence"
+display <- data.frame(
+  Metric = c(
+    "Valid connected-business responses", "Effective sample size", "Reported disruptions",
+    "Weighted disruption rate", "Usable duration responses", "Weighted mean duration",
+    "Usable loss-ratio responses", "Positive loss responses"
+  ),
+  Value = c(
+    evidence$connected_usable_n,
+    fmt_num(evidence$effective_n),
+    evidence$disruption_events,
+    fmt_pct(evidence$disruption_rate_weighted),
+    evidence$duration_usable_n,
+    paste0(fmt_num(evidence$mean_duration_hours_weighted), " hours"),
+    evidence$loss_ratio_usable_n,
+    evidence$positive_loss_events
+  ),
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r"))
+```
+
+The raw rate is `r fmt_pct(evidence$disruption_rate_unweighted)`. The weighted estimate is `r fmt_pct(evidence$disruption_rate_weighted)` and is the preferred survey estimate. Neither number is a national network-availability rate: the outcome is a business response over the prior fiscal year.
+
+## Duration construction
+
+WBES records hours and, for interruptions shorter than one hour, minutes. The harmonisation rule is
+
+$$
+D_i=
+\begin{cases}
+H_i, & H_i>0,\\[3pt]
+M_i/60, & H_i=0\text{ and }M_i\text{ is observed},\\[3pt]
+\text{missing}, & \text{otherwise}.
+\end{cases}
+$$
+
+This avoids treating an unknown minute response as a zero-duration interruption.
+
+## Provider-switching friction
+
+![Survey-weighted provider-switching responses](artifacts/public/figures/provider-switching.png){fig-alt="Horizontal bar chart of reported difficulty changing internet providers."}
+
+The combined weighted share reporting one provider only, inability to switch, or some difficulty is **`r fmt_pct(evidence$provider_switch_constraint_rate_weighted)`**. This is a resilience indicator, not proof of market power or service failure.
+
+## Loss-cost evidence
+
+```{r}
+#| label: tbl-loss-chain
+#| tbl-cap: "Actuarial loss-cost components"
+display <- data.frame(
+  Component = c(
+    "Disruption probability", "Positive loss probability | disruption",
+    "Mean positive loss ratio", "Expected loss ratio"
+  ),
+  Estimate = c(
+    fmt_pct(calibration$disruption_probability),
+    fmt_pct(calibration$positive_loss_probability_given_disruption),
+    fmt_ratio_pct(calibration$mean_positive_loss_ratio),
+    fmt_ratio_pct(calibration$expected_loss_ratio)
+  ),
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "r"))
+```
+
+The 95% weighted-resampling interval for the expected loss ratio is **`r fmt_ratio_pct(bootstrap$lower_95)` to `r fmt_ratio_pct(bootstrap$upper_95)`**. The interval is wide because the severity tail rests on 16 positive observations.
+
+## Disclosure-screened segments
+
+Only segments with at least 30 usable observations and five disruption events are published.
+
+```{r}
+#| label: tbl-segments
+#| tbl-cap: "Disclosure-screened segment evidence"
+display <- data.frame(
+  Dimension = segments$dimension,
+  Segment = segments$segment,
+  `Raw n` = segments$raw_n,
+  `Effective n` = segments$effective_n,
+  Events = segments$disruption_events,
+  `Weighted rate` = fmt_pct(segments$disruption_rate_weighted),
+  check.names = FALSE
+)
+knitr::kable(display, align = c("l", "l", "r", "r", "r", "r"))
+```
+
+Segment labels are survey category codes. Differences are descriptive and do not establish causal effects.

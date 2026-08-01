@@ -1,0 +1,39 @@
+# Restricted and downloaded source data
+data/raw/**
+!data/raw/.gitkeep
+!data/raw/wbes/.gitkeep
+!data/raw/network/.gitkeep
+data/interim/**
+!data/interim/.gitkeep
+
+# R pipeline state
+_targets/
+_targets.RData
+.Rhistory
+.RData
+.Rproj.user/
+renv/library/
+renv/staging/
+
+# Python state
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Rendered and temporary files
+.quarto/
+tmp/
+output/
+docs/
+reports/*-pdf.tex
+reports/*-pdf.log
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+
+**/*.quarto_ipynb
+
+/.quarto/

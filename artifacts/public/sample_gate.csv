@@ -1,0 +1,6 @@
+component,observed_events_or_rows,minimum_required,allowed,interpretation
+occurrence_glm,136,100,TRUE,Parsimonious survey-weighted occurrence GLM permitted.
+duration_gamma,125,100,TRUE,Conditional Gamma duration model permitted with limited predictors.
+severity_glm,16,50,FALSE,Positive-loss sample is too small for a stable severity GLM.
+ml_challenger,136,200,FALSE,The non-linear model remains an evaluation-only challenger.
+operator_loss_attribution,0,1,FALSE,WBES contains no operator identifier; business losses cannot be assigned to an operator.

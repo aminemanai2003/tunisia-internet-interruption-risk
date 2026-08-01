@@ -1,0 +1,4 @@
+scenario,scenario_label,portfolio_exposure_tnd_start,annual_exposure_growth,initial_risk_stress,annual_risk_trend,prudence_margin,projection_start_year,projection_end_year
+resilience,Resilience improvement,10000000,0.02,0.9,-0.03,0.1,2027,2031
+persistent,Persistent conditions,10000000,0.02,1,0,0.2,2027,2031
+systemic,Systemic stress,10000000,0.02,1.6,0.06,0.4,2027,2031

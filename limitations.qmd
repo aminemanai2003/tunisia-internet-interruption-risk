@@ -1,0 +1,48 @@
+---
+title: "Limitations and use boundary"
+subtitle: "What the evidence supports—and what it cannot establish"
+---
+
+## Supported uses
+
+- Estimate survey-weighted reported internet disruptions among connected formal businesses represented by Tunisia's 2024 WBES.
+- Model occurrence and conditional duration using parsimonious GLMs.
+- Demonstrate a transparent actuarial loss-cost chain and conditional provisions.
+- Compare a GLM and non-linear challenger under repeated cross-validation.
+- Present official INT QoS evidence and RIPE Atlas measurement coverage as separate context.
+
+## Unsupported interpretations
+
+### No operator-level loss attribution
+
+WBES contains no operator identifier. It cannot assign a business loss to Tunisie Télécom, Ooredoo Tunisia, Orange Tunisia or any other provider.
+
+### No national total loss
+
+The expected loss ratio belongs to a formal-business survey estimand. The standardized 10 million TND exposure is illustrative; it is not Tunisia's total business exposure.
+
+### No learned future trend
+
+Internet-disruption and loss fields are available only in the 2024 module. The 2027–2031 paths are transparent stress scenarios, not a time-series forecast.
+
+### Sparse severity
+
+Only 16 positive percentage-loss responses and eight monetary-loss values are available. A severity GLM, tariff or operator-specific provision would be unstable and is blocked.
+
+### One-wave validation
+
+Repeated cross-validation estimates within-wave performance but cannot establish transportability to another year, technology regime or portfolio.
+
+### Context data are dated and heterogeneous
+
+The mobile QoS campaign is from 2019 and covers Grand Tunis. The fixed benchmark is from 2020 and covers 8 Mbps ADSL. RIPE Atlas probes are volunteer devices. None is a direct 2024 firm-level outage record.
+
+### Self-reported outcome
+
+The survey records recalled disruptions and losses over the prior fiscal year. It does not independently verify event timestamps, causes, contractual service levels or accounting amounts.
+
+## Before operational use
+
+A real pricing, reserving or continuity programme would require event-linked operator telemetry, current portfolio exposure, contractual coverage definitions, a larger loss dataset, temporal validation, tail modelling, scenario governance and appropriate actuarial, accounting and legal review.
+
+The machine-readable boundary is published in [`model_card.yml`](artifacts/public/model_card.yml).

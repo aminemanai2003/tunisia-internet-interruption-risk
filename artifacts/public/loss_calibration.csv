@@ -1,0 +1,2 @@
+calibration_year,disruption_probability,positive_loss_probability_given_disruption,mean_positive_loss_ratio,expected_loss_ratio,valid_loss_ratio_responses,positive_loss_events
+2024,0.1982679670203487,0.15416788747446272,0.08258685854047908,0.0025243956406598715,117,16
