@@ -13,4 +13,6 @@ format:
     html-math-method: katex
 ---
 
+[Download the typeset PDF report](actuarial-report.pdf){.btn .btn-primary download="actuarial-report.pdf"}
+
 {{< include _report-body.qmd >}}

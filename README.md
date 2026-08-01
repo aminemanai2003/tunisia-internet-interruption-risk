@@ -9,6 +9,8 @@ An independent actuarial study of self-reported business loss associated with in
 
 **Public study:** <https://aminemanai2003.github.io/tunisia-internet-interruption-risk/>
 
+**PDF report:** <https://aminemanai2003.github.io/tunisia-internet-interruption-risk/reports/actuarial-report.pdf>
+
 ## Results at a glance
 
 - Among 616 valid connected-business responses in Tunisia's 2024 WBES, the survey-weighted internet-disruption rate is **19.83%**.
